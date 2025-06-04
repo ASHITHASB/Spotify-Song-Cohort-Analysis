@@ -15,7 +15,9 @@ if uploaded_file:
         df = pd.read_csv(uploaded_file)
         st.subheader("Sample of Uploaded Data")
         st.dataframe(df.head())
-
+# Convert timestamp to datetime using day-first format
+df['listen_ts'] = pd.to_datetime(df['listen_ts'], dayfirst=True)
+df['cohort_month'] = df['listen_ts'].dt.to_period('M')
         # Example column check
         required_columns = ["user_id", "song_id", "listen_ts"]
         if all(col in df.columns for col in required_columns):
